@@ -38,15 +38,13 @@ rm -rf manifest-scaffold.git
 
 ## Installing WordPress and Configuring Themes
 
-*Note: If you receive a permission denied error trying to run either of the scripts below, run* `chmod +x wordpress.sh` *or* `chmod +x manifest.sh`  
+*Note: If you receive a permission denied error trying to run either of the scripts below, run* `chmod +x wordpress.sh` *or* `chmod +x manifest.sh`. *If you have not followed the instructions from the link in the [Prerequisites](#prerequisites) section above, you will encounter errors when running the commands below.*
 
 Clone the repository to which you mirror pushed in the step above, `cd` into its root, then open a terminal and run:
 
 ```
 ./wordpress.sh
 ```
-
-**Note:** If you haven't installed `wget`, you'll get the following error: `wget: command not found`. Please make sure that you followed all the instructions from the link in the [Prerequisites](#prerequisites) section above.
 
 When the script finishes installing, run:
 
