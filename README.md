@@ -46,7 +46,7 @@ Clone the repository to which you mirror pushed in the step above, `cd` into its
 ./wordpress.sh
 ```
 
-**Note:** If you haven't installed `wget`, you'll get the following error: `wget: command not found`. Please make sure that you followed all the instructions from the link in the [Prerequisites](https://github.com/athletics/manifest-scaffold#prerequisites) section above.
+**Note:** If you haven't installed `wget`, you'll get the following error: `wget: command not found`. Please make sure that you followed all the instructions from the link in the [Prerequisites](#prerequisites) section above.
 
 When the script finishes installing, run:
 
