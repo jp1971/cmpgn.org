@@ -1,5 +1,5 @@
 {
-	"directory" : "wp-content/themes/manifest-child-theme/bower_components",
+	"directory" : "wp-content/themes/cmpgn/bower_components",
 	 "scripts": {
     	"postinstall": "bash bin/bower/postinstall.sh"
   	}

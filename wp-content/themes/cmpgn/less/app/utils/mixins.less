@@ -1,0 +1,143 @@
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Mixins
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+//
+// Grid Mixins
+// ---------------------------------------
+
+// Make container
+.mmm-make-container() {
+
+	margin-right: auto;
+	margin-left: auto;
+
+	padding-left: @grid-column-padding;
+	padding-right: @grid-column-padding;
+
+	.clearfix();
+
+}
+
+// Make row
+// For naming consistency / discoverability
+.mmm-make-row() {
+
+	.make-row();
+
+}
+
+// Make Bootstrap-compatible grid columns
+//
+// @grid-columns List of columns to generate
+// @size Indicator, used in class name. Use xs, sm, md, or lg
+.mmm-make-grid-columns( @grid-columns, @size ) {
+
+	.col-@{size} {
+
+		.for( @grid-columns ); .-each( @grid-column ) {
+
+			&-@{grid-column} {
+				.mmm-make-column( @grid-column, @size );
+			}
+
+		}
+
+	}
+
+}
+
+// Make Bootstrap-compatible column offsets
+//
+// @grid-columns List of offsets to generate
+// @size Indicator, used in class name. Use xs, sm, md, or lg
+.mmm-make-column-offsets( @grid-columns, @size ) {
+
+	.col-@{size}-offset {
+
+		.for( @grid-columns ); .-each( @grid-column ) {
+
+			&-@{grid-column} {
+				.mmm-make-column-offset( @grid-column, @size );
+			}
+
+		}
+
+	}
+
+}
+
+// Make column
+// Used in other mixins, do not call directly
+//
+// @columns The number of columns to span
+// @size xs, sm, md, lg
+.mmm-make-column( @columns, @size ) when not ( @size = xs ) {
+
+	@screen-width: "screen-@{size}";
+
+	@media ( min-width: @@screen-width ) {
+
+		float: left;
+
+		// Calculate width based on number of columns available
+		width: percentage( @columns / @grid-columns );
+
+	}
+
+	.mmm-column-guts();
+
+}
+
+// Special use case for xs
+// No media queries
+.mmm-make-column( @columns, @size ) when ( @size = xs ) {
+
+	float: left;
+
+	// Calculate width based on number of columns available
+	width: percentage( @columns / @grid-columns );
+
+	.mmm-column-guts();
+
+}
+
+// Column guts
+// Used in other mixins, do not call directly
+// Ensures this is handled consistently
+.mmm-column-guts() {
+
+	// Prevent columns from collapsing when empty
+	min-height: 1px;
+
+	// Set inner padding as gutters instead of margin
+	padding-left: @grid-column-padding;
+	padding-right: @grid-column-padding;
+
+	// Proper box-model (padding doesn't add to width)
+	.box-sizing( border-box );
+
+}
+
+// Column offset
+// Used in other mixins, do not call directly
+//
+// @columns The number of columns to span
+// @screen-width Breakpoint min-width
+.mmm-make-column-offset( @columns, @size ) when not ( @size = xs ) {
+
+	@screen-width: "screen-@{size}";
+
+	@media ( min-width: @@screen-width ) {
+		margin-left: percentage( @columns / @grid-columns );
+	}
+
+}
+
+// Special use case for xs
+// No media queries
+.mmm-make-column-offset( @columns, @size ) when ( @size = xs ) {
+
+	margin-left: percentage( @columns / @grid-columns );
+
+}

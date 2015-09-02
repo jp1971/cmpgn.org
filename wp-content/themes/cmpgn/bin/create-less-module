@@ -1,0 +1,37 @@
+#!/bin/bash
+
+pushd `dirname $0` > /dev/null
+	theme=$(dirname `pwd`)
+popd > /dev/null
+
+less="$theme/less/app"
+boilerplate="$less/_boilerplate_module/*"
+prompt="> Please enter the module's name: "
+
+read -p "$prompt" module
+
+while [ -z "$module" ]
+do
+	printf 'Hmm'
+	sleep .3
+	printf '.'
+	sleep .3
+	printf '.'
+	sleep .3
+	printf '. '
+	sleep .7
+	printf "Let's try that again. \n"
+	sleep 1
+	read -p "$prompt" module
+done
+
+echo "Creating the '$module' less module."
+
+mkdir "$less/$module"
+rsync -r $boilerplate "$less/$module"
+cd "$less/$module"
+
+for f in name*
+do
+	mv "$f" "$module${f#name}"
+done

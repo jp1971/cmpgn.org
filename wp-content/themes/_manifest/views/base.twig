@@ -1,0 +1,66 @@
+<!doctype html>
+<!--[if IE 9]><html class="no-js lt-ie10" {{ site.language_attributes }}> <![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" {{ site.language_attributes }}> <!--<![endif]-->
+<!--[if lte IE 8]>
+<script type="text/javascript">
+	if ( document.URL.indexOf( 'ie8' ) === -1 ) {
+		window.location = 'http://' + location.hostname + '/ie8';
+	}
+</script>
+<![endif]-->
+
+	<head>
+
+		{% block head %}
+
+		<meta charset="utf-8" />
+		<title>{{wp_title}}</title>
+		<meta name="description" content="{{site.description}}">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Fav and touch icons -->
+		{#% include includes/favicon.ico %#}
+
+		{% endblock %}
+
+		{{function('wp_head')}}
+
+	</head>
+
+	<body class="{{body_class}}" data-source="base.twig">
+
+		<span class="load_indicator"></span>
+
+		<header class="site">
+
+			{% block header %}
+			{% endblock %}
+
+		</header>
+
+		<main>
+
+			{% block wrapper %}
+
+				{% block content %}
+				{% endblock %}
+
+				{% block sidebar %}
+				{% endblock %}
+
+			{% endblock %}
+
+		</main>
+
+		<footer class="site">
+
+			{% block footer %}
+			{% endblock %}
+
+		</footer>
+
+		{{ function('wp_footer') }}
+
+	</body>
+
+</html>

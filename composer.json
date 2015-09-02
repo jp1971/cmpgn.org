@@ -4,7 +4,6 @@
   },
   "require": {
     "manifest": "dev-master",
-    "manifest-child-theme": "dev-master",
     "composer/installers": "~1.0"
   },
   "require-dev": {

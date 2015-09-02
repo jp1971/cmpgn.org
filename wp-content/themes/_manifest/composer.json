@@ -1,0 +1,14 @@
+{
+	"name": "manifest",
+	"description": "The Manifest WordPress parent theme",
+	"type": "wordpress-theme",
+	"config": {
+	  "preferred-install": "dist"
+	},
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "http://packages.athleticsnyc.com"
+		}
+	]
+}

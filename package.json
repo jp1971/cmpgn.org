@@ -1,21 +1,21 @@
 {
-  "name": "manifest-child-theme",
+  "name": "cmpgn",
   "version": "1.0.0",
-  "description": "The grunt package list for manifest-child-theme",
+  "description": "The grunt package list for cmpgn",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "manifest-child-theme-url.git"
+    "url": "https://github.com/jp1971/cmpgn.org.git"
   },
   "author": "athletics",
   "license": "ISC",
   "bugs": {
-    "url": "manifest-child-theme-url/issues"
+    "url": "https://github.com/jp1971/cmpgn.org/issues"
   },
-  "homepage": "manifest-child-theme-url",
+  "homepage": "https://github.com/jp1971/cmpgn.org",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
