@@ -11,6 +11,8 @@ require_once( __DIR__ . '/functions/admin.php' );
 
 require_once( __DIR__ . '/functions/classes.php' );
 
+require_once( __DIR__ . '/functions/custom-post-types.php' );
+
 require_once( __DIR__ . '/functions/enqueue.php' );
 
 require_once( __DIR__ . '/functions/excerpt.php' );
