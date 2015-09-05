@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The main functions file for the Manifest theme
+ * The main functions file for the cmpgn.org WordPress parent theme
  */
 
 /**
@@ -13,12 +13,6 @@ require_once( __DIR__ . '/functions/custom-post-types.php' );
 require_once( __DIR__ . '/functions/enqueue.php' );
 
 require_once( __DIR__ . '/functions/excerpt.php' );
-
-if ( defined( 'MNFST_DEV' ) && MNFST_DEV ) {
-
-	require_once( __DIR__ . '/functions/flush-permalinks.php');
-
-}
 
 require_once( __DIR__ . '/functions/images.php' );
 
