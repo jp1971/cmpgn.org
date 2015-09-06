@@ -8,8 +8,6 @@
  * Require custom theme functions
  */
 
-require_once( __DIR__ . '/functions/custom-post-types.php' );
-
 require_once( __DIR__ . '/functions/enqueue.php' );
 
 require_once( __DIR__ . '/functions/excerpt.php' );
