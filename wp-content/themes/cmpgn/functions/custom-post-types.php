@@ -42,4 +42,33 @@ function create_post_types() {
 
 	register_post_type( 'campaign-log', $args );
 
+	// Character
+	$labels = array(
+		'name'                => __( 'Charcters', 'cmpgn' ),
+		'singular_name'       => __( 'Character', 'cmpgn' ),
+		'add_new'             => _x( 'Add New Character', 'cmpgn', 'cmpgn' ),
+		'add_new_item'        => __( 'Add New Character', 'cmpgn' ),
+		'edit_item'           => __( 'Edit Character', 'cmpgn' ),
+		'new_item'            => __( 'New Character', 'cmpgn' ),
+		'view_item'           => __( 'View Character', 'cmpgn' ),
+		'search_items'        => __( 'Search Characters', 'cmpgn' ),
+		'not_found'           => __( 'No Characters found', 'cmpgn' ),
+		'not_found_in_trash'  => __( 'No Characters found in Trash', 'cmpgn' ),
+		'parent_item_colon'   => __( 'Parent Character:', 'cmpgn' ),
+		'menu_name'           => __( 'Campaign Log', 'cmpgn' ),
+	);
+
+	$args = array(
+		'labels'              => $labels,
+		'taxonomies'          => array( 'category', 'post_tag' ),
+		'public'              => true,
+		'has_archive'         => true,
+		//'rewrite'             => array( 'slug' => 'articles' ),
+		'supports'            => array(
+			'title', 'editor', 'author', 'excerpt'
+		)
+	);
+
+	register_post_type( 'character', $args );
+
 }
