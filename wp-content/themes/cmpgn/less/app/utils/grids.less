@@ -1,26 +1,33 @@
-/////////////////////////////////////////////////////////////////////////////////////////////
+//
 // Grids
-/////////////////////////////////////////////////////////////////////////////////////////////
+// --------------------------------------------------
 
 // Example grid usage
 // Define only the grids needed
 
 // Mobile
 // --------------------------------------------------
-@xs-columns: 1, 2, 3;
-.mmm-make-grid-columns( @xs-columns, xs );
+// @xs-columns: 1, 2, 3;
+// .mmm-make-grid-columns( @xs-columns, xs );
 
 // Tablet
 // --------------------------------------------------
-@sm-columns: 1, 2, 3;
-.mmm-make-grid-columns( @sm-columns, sm );
+// @sm-columns: 1, 2, 3;
+// .mmm-make-grid-columns( @sm-columns, sm );
 
 // Desktop
-// --------------------------------------------------
-@md-columns: 1, 2, 3;
+// // --------------------------------------------------
+@md-columns: 2, 3, 8, 12;
 .mmm-make-grid-columns( @md-columns, md );
+
+.mmm-make-column-offsets( 2, md );
+
+.content {
+	margin-left: 50px;
+	margin-right: 50px;
+}
 
 // Large Desktop
 // --------------------------------------------------
-@lg-columns: 1, 2, 3;
-.mmm-make-grid-columns( @md-columns, lg );
+// @lg-columns: 12;
+// .mmm-make-grid-columns( @lg-columns, lg );
