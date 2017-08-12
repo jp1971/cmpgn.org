@@ -71,7 +71,7 @@ jQuery(document).ready(function() {
 		Select Dropdowns
 	**/
 	
-	jQuery(".umaf-selectjs").select2({
+	jQuery(".umaf-selectjs, .ultimate-member_page_um_options .redux-select-item ").select2({
 		allowClear: false,
 		minimumResultsForSearch: 10
 	});
@@ -81,20 +81,16 @@ jQuery(document).ready(function() {
 		minimumResultsForSearch: 10
 	});
 	
-	jQuery("body.um-admin .actions select:not('.umaf-selectjs')").select2({
-		allowClear: false,
-		minimumResultsForSearch: 10,
-		width: '160px'
-	});
-	
 	/**
 		Tooltips
 	**/
 	
-	jQuery('.um-admin-tipsy-n,#redux-share a').tipsy({gravity: 'n', opacity: 1, live: 'a.live' });
-	jQuery('.um-admin-tipsy-w').tipsy({gravity: 'w', opacity: 1, live: 'a.live' });
-	jQuery('.um-admin-tipsy-e').tipsy({gravity: 'e', opacity: 1, live: 'a.live' });
-	jQuery('.um-admin-tipsy-s').tipsy({gravity: 's', opacity: 1, live: 'a.live' });
+	if( typeof tipsy !== 'undefined' ){
+		jQuery('.um-admin-tipsy-n,#redux-share a').tipsy({gravity: 'n', opacity: 1, live: 'a.live' });
+		jQuery('.um-admin-tipsy-w').tipsy({gravity: 'w', opacity: 1, live: 'a.live' });
+		jQuery('.um-admin-tipsy-e').tipsy({gravity: 'e', opacity: 1, live: 'a.live' });
+		jQuery('.um-admin-tipsy-s').tipsy({gravity: 's', opacity: 1, live: 'a.live' });
+	}
 	
 	/**
 		Conditional fields
@@ -106,6 +102,11 @@ jQuery(document).ready(function() {
 		if (jQuery(this).val() == jQuery(this).data('cond1') ){
 			jQuery('.' + jQuery(this).data('cond1-show') ).show();
 			jQuery('.' + jQuery(this).data('cond1-hide') ).hide();
+			
+			if ( jQuery(this).data('cond1-show') == '_roles' ) {
+				return false;
+			}
+			
 		} else {
 			jQuery('.' + jQuery(this).data('cond1-show') ).hide();
 			jQuery('.' + jQuery(this).data('cond1-hide') ).show();
@@ -116,6 +117,11 @@ jQuery(document).ready(function() {
 		if (jQuery(this).val() == jQuery(this).data('cond2') ){
 			jQuery('.' + jQuery(this).data('cond2-show') ).show();
 			jQuery('.' + jQuery(this).data('cond2-hide') ).hide();
+			
+			if ( jQuery(this).data('cond2-show') == '_roles' ) {
+				return false;
+			}
+			
 		} else {
 			jQuery('.' + jQuery(this).data('cond2-show') ).hide();
 			jQuery('.' + jQuery(this).data('cond2-hide') ).show();

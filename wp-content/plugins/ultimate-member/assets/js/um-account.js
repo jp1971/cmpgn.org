@@ -16,6 +16,8 @@ jQuery(document).ready(function() {
 		var url_ = jQuery(this).attr('href');
 		var tab_ = jQuery(this).attr('data-tab');
 		
+		jQuery("input[id=_um_account_tab]:hidden").val( tab_ );
+		
 		window.history.pushState("", "", url_);
 		
 		jQuery('.um-account-tab').hide();
@@ -26,13 +28,17 @@ jQuery(document).ready(function() {
 
 		return false;
 	});
+});
 
 	jQuery(document).on('click','.um-account-nav a',function(e){
 		e.preventDefault();
-		
+       
 		var tab_ = jQuery(this).attr('data-tab');
 		var div = jQuery(this).parents('div');
 		var link = jQuery(this);
+
+		
+		jQuery("input[id=_um_account_tab]:hidden").val( tab_ );
 		
 		jQuery('.um-account-tab').hide();
 		
@@ -51,4 +57,3 @@ jQuery(document).ready(function() {
 		return false;
 	});
 	
-});

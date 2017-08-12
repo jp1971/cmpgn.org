@@ -41,7 +41,7 @@ class UM_Admin_Dashboard {
 			// Change the footer text
 			if ( ! get_option( 'um_admin_footer_text_rated' ) ) {
 				
-			$footer_text = sprintf( __( 'If you like Ultimate Member please consider leaving a %s&#9733;&#9733;&#9733;&#9733;&#9733;%s review. It will help us to grow the plugin and make it more popular. Thank you.', 'ultimatemember' ), '<a href="https://wordpress.org/support/view/plugin-reviews/ultimate-member?filter=5#postform" target="_blank" class="um-admin-rating-link" data-rated="' . __( 'Thanks :)', 'ultimatemember' ) . '">', '</a>' );
+			$footer_text = sprintf( __( 'If you like Ultimate Member please consider leaving a %s&#9733;&#9733;&#9733;&#9733;&#9733;%s review. It will help us to grow the plugin and make it more popular. Thank you.', 'ultimate-member'), '<a href="https://wordpress.org/support/plugin/ultimate-member/reviews/?filter=5" target="_blank" class="um-admin-rating-link" data-rated="' . __( 'Thanks :)', 'ultimate-member') . '">', '</a>' );
 			
 			$footer_text .= "<script type='text/javascript'>
 					jQuery('a.um-admin-rating-link').click(function() {
@@ -68,11 +68,11 @@ class UM_Admin_Dashboard {
 	 */
 	function get_pending_users_count() {
 		
-		if ( get_option('um_cached_users_queue') > 0 ) {
+		if ( get_option('um_cached_users_queue') > 0 && ! isset( $_REQUEST['delete_count'] ) ) {
 			return get_option('um_cached_users_queue');
 		}
 		
-		$args = array( 'fields' => 'ID', 'number' => 20 );
+		$args = array( 'fields' => 'ID', 'number' => 100 );
 		$args['meta_query']['relation'] = 'OR';
 		$args['meta_query'][] = array(
 				'key' => 'account_status',
@@ -84,6 +84,7 @@ class UM_Admin_Dashboard {
 				'value' => 'awaiting_admin_review',
 				'compare' => '='
 		);
+		$args = apply_filters('um_admin_pending_queue_filter', $args );
 		$users = new WP_User_Query( $args );
 		
 		delete_option('um_cached_users_queue');
@@ -101,15 +102,19 @@ class UM_Admin_Dashboard {
 		if ( !current_user_can( 'list_users' ) ) return;
 		
 		$count = $this->get_pending_users_count();
-		
-		foreach( $menu as $key => $menu_item ) {
-			if ( 0 === strpos( $menu_item[0], _x( 'Users', 'Admin menu name' ) ) ) {
-				$menu[ $key ][0] .= ' <span class="update-plugins count-'.$count.'"><span class="processing-count">'.$count.'</span></span>';
+		if(is_array($menu)){
+			foreach( $menu as $key => $menu_item ) {
+				if ( 0 === strpos( $menu_item[0], _x( 'Users', 'Admin menu name' ) ) ) {
+					$menu[ $key ][0] .= ' <span class="update-plugins count-'.$count.'"><span class="processing-count">'.$count.'</span></span>';
+				}
 			}
+			
 		}
-		foreach ( $submenu['users.php'] as $key => $menu_item ) {
-			if ( 0 === strpos( $menu_item[0], _x( 'All Users', 'Admin menu name' ) ) ) {
-				$submenu['users.php'][ $key ][0] .= ' <span class="update-plugins count-'.$count.'"><span class="processing-count">'.$count.'</span></span>';
+		if(is_array($submenu)){
+			foreach ( $submenu['users.php'] as $key => $menu_item ) {
+				if ( 0 === strpos( $menu_item[0], _x( 'All Users', 'Admin menu name' ) ) ) {
+					$submenu['users.php'][ $key ][0] .= ' <span class="update-plugins count-'.$count.'"><span class="processing-count">'.$count.'</span></span>';
+				}
 			}
 		}
 	}
@@ -150,7 +155,11 @@ class UM_Admin_Dashboard {
 	***	@extension menu
 	***/
 	function extension_menu() {
+		
 		add_submenu_page( $this->slug, __('Extensions', $this->slug), '<span style="color: #00B9EB">' .__('Extensions', $this->slug) . '</span>', 'manage_options', $this->slug . '-extensions', array(&$this, 'admin_page') );
+		
+		remove_submenu_page('tools.php','redux-about');
+		
 	}
 	
 	/***
@@ -165,19 +174,19 @@ class UM_Admin_Dashboard {
 
 		/** custom metaboxes for dashboard defined here **/
 		
-		add_meta_box('um-metaboxes-contentbox-1', __('Users Overview','ultimatemember'), array(&$this, 'users_overview'), $this->pagehook, 'core', 'core');
+		add_meta_box('um-metaboxes-contentbox-1', __('Users Overview','ultimate-member'), array(&$this, 'users_overview'), $this->pagehook, 'core', 'core');
 		
-		add_meta_box('um-metaboxes-mainbox-1', __('Latest from our blog','ultimatemember'), array(&$this, 'um_news'), $this->pagehook, 'normal', 'core');
+		add_meta_box('um-metaboxes-mainbox-1', __('Latest from our blog','ultimate-member'), array(&$this, 'um_news'), $this->pagehook, 'normal', 'core');
 		
-		add_meta_box('um-metaboxes-sidebox-1', __('Purge Temp Files','ultimatemember'), array(&$this, 'purge_temp'), $this->pagehook, 'side', 'core');
-		add_meta_box('um-metaboxes-sidebox-2', __('User Cache','ultimatemember'), array(&$this, 'user_cache'), $this->pagehook, 'side', 'core');
+		add_meta_box('um-metaboxes-sidebox-1', __('Purge Temp Files','ultimate-member'), array(&$this, 'purge_temp'), $this->pagehook, 'side', 'core');
+		add_meta_box('um-metaboxes-sidebox-2', __('User Cache','ultimate-member'), array(&$this, 'user_cache'), $this->pagehook, 'side', 'core');
 		
 		if ( $this->language_avaialable_not_installed() ) {
-			add_meta_box('um-metaboxes-sidebox-2', __('Language','ultimatemember'), array(&$this, 'dl_language'), $this->pagehook, 'side', 'core');
+			add_meta_box('um-metaboxes-sidebox-2', __('Language','ultimate-member'), array(&$this, 'dl_language'), $this->pagehook, 'side', 'core');
 		} else if ( $this->language_avaialable_installed() ) {
-			add_meta_box('um-metaboxes-sidebox-2', __('Language','ultimatemember'), array(&$this, 'up_language'), $this->pagehook, 'side', 'core');
+			add_meta_box('um-metaboxes-sidebox-2', __('Language','ultimate-member'), array(&$this, 'up_language'), $this->pagehook, 'side', 'core');
 		} else if ( $this->language_not_available() ) {
-			add_meta_box('um-metaboxes-sidebox-2', __('Language','ultimatemember'), array(&$this, 'ct_language'), $this->pagehook, 'side', 'core');
+			add_meta_box('um-metaboxes-sidebox-2', __('Language','ultimate-member'), array(&$this, 'ct_language'), $this->pagehook, 'side', 'core');
 		}
 		
 	}
@@ -274,62 +283,61 @@ class UM_Admin_Dashboard {
 	function admin_page() {
 		
 		$page = $_REQUEST['page'];
-		if ( $page == 'ultimatemember' && !isset($_REQUEST['um-addon']) ) {
+		if ( $page == 'ultimatemember' && ! isset( $_REQUEST['um-addon'] ) ) {
 
-		?>
-		
-		<div id="um-metaboxes-general" class="wrap">
-		
-			<h2>Ultimate Member <sup><?php echo ultimatemember_version; ?></sup></h2>
+			?>
+			
+			<div id="um-metaboxes-general" class="wrap">
+			
+				<h2>Ultimate Member <sup><?php echo ultimatemember_version; ?></sup></h2>
 
-				<?php wp_nonce_field('um-metaboxes-general'); ?>
-				<?php wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false ); ?>
-				<?php wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false ); ?>
-				
-				<input type="hidden" name="action" value="save_um_metaboxes_general" />
-				
-				<div id="dashboard-widgets-wrap">
-		
-					 <div id="dashboard-widgets" class="metabox-holder um-metabox-holder"> 
+					<?php wp_nonce_field('um-metaboxes-general'); ?>
+					<?php wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false ); ?>
+					<?php wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false ); ?>
+					
+					<input type="hidden" name="action" value="save_um_metaboxes_general" />
+					
+					<div id="dashboard-widgets-wrap">
+			
+						 <div id="dashboard-widgets" class="metabox-holder um-metabox-holder"> 
 
-							<div id="postbox-container-1" class="postbox-container"><?php do_meta_boxes($this->pagehook,'core',null);  ?></div>
-							<div id="postbox-container-2" class="postbox-container"><?php do_meta_boxes($this->pagehook,'normal',null); ?></div>
-							<div id="postbox-container-3" class="postbox-container"><?php do_meta_boxes($this->pagehook,'side',null); ?></div>
+								<div id="postbox-container-1" class="postbox-container"><?php do_meta_boxes($this->pagehook,'core',null);  ?></div>
+								<div id="postbox-container-2" class="postbox-container"><?php do_meta_boxes($this->pagehook,'normal',null); ?></div>
+								<div id="postbox-container-3" class="postbox-container"><?php do_meta_boxes($this->pagehook,'side',null); ?></div>
 
-					 </div>
+						 </div>
 
-				</div>
+					</div>
 
-		</div><div class="um-admin-clear"></div>
-		
-		<div class="um-admin-dash-share"><?php global $reduxConfig; foreach ( $reduxConfig->args['share_icons'] as $k => $arr ) { ?><a href="<?php echo $arr['url']; ?>" class="um-about-icon um-admin-tipsy-n" title="<?php echo $arr['title']; ?>" target="_blank"><i class="<?php echo $arr['icon']; ?>"></i></a><?php } ?>	
-		</div><div class="um-admin-clear"></div>
-		
-		<script type="text/javascript">
-			//<![CDATA[
-			jQuery(document).ready( function($) {
-				// postboxes setup
-				postboxes.add_postbox_toggles('<?php echo $this->pagehook; ?>');
-			});
-			//]]>
-		</script>
-		
-		<?php
+			</div><div class="um-admin-clear"></div>
+			
+			<div class="um-admin-dash-share"><?php global $reduxConfig; foreach ( $reduxConfig->args['share_icons'] as $k => $arr ) { ?><a href="<?php echo $arr['url']; ?>" class="um-about-icon um-admin-tipsy-n" title="<?php echo $arr['title']; ?>" target="_blank"><i class="<?php echo $arr['icon']; ?>"></i></a><?php } ?>	
+			</div><div class="um-admin-clear"></div>
+			
+			<script type="text/javascript">
+				//<![CDATA[
+				jQuery(document).ready( function($) {
+					// postboxes setup
+					postboxes.add_postbox_toggles('<?php echo $this->pagehook; ?>');
+				});
+				//]]>
+			</script>
+			
+			<?php
 			
 		} else if ( $page == 'ultimatemember-extensions' ) {
 			
 			include_once um_path . 'admin/templates/extensions.php';
 			
-		} else if ( strstr( $page, 'ultimatemember-' ) ) {
+		} else if (  $page == 'ultimatemember-about' ) {
 
-			$template = str_replace('ultimatemember-','',$page);
-			$file = um_path . 'admin/templates/welcome/'. $template . '.php';
+				include_once um_path . 'admin/templates/welcome/about.php';
+		
+		} else if (  $page == 'ultimatemember-start' ) {
 
-			if ( file_exists( $file ) ){
-				include_once um_path . 'admin/templates/welcome/'. $template . '.php';
-			}
-
-		}
+				include_once um_path . 'admin/templates/welcome/start.php';
+		
+		} 
 	
 	}
 

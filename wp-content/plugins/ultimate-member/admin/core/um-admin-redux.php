@@ -15,8 +15,20 @@
                 }
 
 				add_action( 'wp_loaded', array( $this, 'initSettings' ), 10 );
+				add_action( 'redux/construct', array( $this, 'redux_disable_dev_mode_plugin' ) );
 
             }
+
+
+			public function redux_disable_dev_mode_plugin( $redux ) {
+	            if ( $redux->args['opt_name'] == 'um_options' ) {
+	                $redux->args['dev_mode'] = false;
+	                $redux->args['dev_mode_forced'] = false;
+	                $redux->args['update_notice'] = false;
+	            }
+	           
+	        }
+
 
             public function initSettings() {
 
@@ -40,12 +52,12 @@
 
 				$this->args = array(
 					'opt_name'          => 'um_options',            // This is where your data is stored in the database and also becomes your global variable name.
-					'display_name'      => __('Ultimate Member', 'ultimatemember'),    // Name that appears at the top of your panel
+					'display_name'      => __('Ultimate Member', 'ultimate-member'),    // Name that appears at the top of your panel
 					'display_version'   => ultimatemember_version,  // Version that appears at the top of your panel
 					'menu_type'         => 'submenu',                  //Specify if the admin menu should appear or not. Options: menu or submenu (Under appearance only)
 					'allow_sub_menu'    => false,                    // Show the sections below the admin menu item or not
-					'menu_title'        => __('Settings', 'ultimatemember'),
-					'page_title'        => __('Settings', 'ultimatemember'),
+					'menu_title'        => __('Settings', 'ultimate-member'),
+					'page_title'        => __('Settings', 'ultimate-member'),
 				   
 					'google_api_key' => '', // Must be defined to add google fonts to the typography module
 					'async_typography'  => true,                    // Use a asynchronous font on the front end or font string

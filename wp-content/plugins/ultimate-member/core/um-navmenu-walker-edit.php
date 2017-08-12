@@ -9,7 +9,7 @@ class UM_Menu_Item_Custom_Fields_Editor {
 	 * Initialize plugin
 	 */
 	public static function init() {
-		add_action( 'wp_nav_menu_item_custom_fields', array( __CLASS__, '_fields' ), 10, 4 );
+		add_action( 'wp_nav_menu_item_custom_fields', array( __CLASS__, '_fields' ), 1, 4 );
 		add_action( 'wp_update_nav_menu_item', array( __CLASS__, '_save' ), 10, 3 );
 		add_filter( 'manage_nav-menus_columns', array( __CLASS__, '_columns' ), 99 );
 
@@ -28,15 +28,32 @@ class UM_Menu_Item_Custom_Fields_Editor {
 		}
 
 		foreach ( self::$fields as $_key => $label ) {
-			$key = sprintf( 'menu-item-%s', $_key );
+			
+			if( $_key == 'um_nav_roles' ){
 
-			// Sanitize
-			if ( ! empty( $_POST[ $key ][ $menu_item_db_id ] ) ) {
-				// Do some checks here...
-				$value = $_POST[ $key ][ $menu_item_db_id ];
-			}
-			else {
-				$value = null;
+				$key = sprintf( 'menu-item-%s', $_key );
+                
+				// Sanitize
+				if ( ! empty( $_POST[ $key ][ $menu_item_db_id ] ) ) {
+					// Do some checks here...
+					$value = $_POST[ $key ][ $menu_item_db_id ];
+				}
+				else {
+					$value = null;
+				}
+
+			}else{
+				
+				$key = sprintf( 'menu-item-%s', $_key );
+				
+				// Sanitize
+				if ( ! empty( $_POST[ $key ][ $menu_item_db_id ] ) ) {
+					// Do some checks here...
+					$value = $_POST[ $key ][ $menu_item_db_id ];
+				}
+				else {
+					$value = null;
+				}
 			}
 
 			// Update
@@ -66,6 +83,7 @@ class UM_Menu_Item_Custom_Fields_Editor {
 			$id    = sprintf( 'edit-%s-%s', $key, $item->ID );
 			$name  = sprintf( '%s[%s]', $key, $item->ID );
 			$value = get_post_meta( $item->ID, $key, true );
+			$role_name  = sprintf( '%s[%s][]', $key, $item->ID );
 			$class = sprintf( 'field-%s', $_key );
 			?>
 			
@@ -90,7 +108,7 @@ class UM_Menu_Item_Custom_Fields_Editor {
 				<?php } ?>
 				
 				<?php if ( $_key == 'um_nav_roles' ) { ?>
-
+				 <?php $role_value = get_post_meta( $item->ID, $_key , true ); ?>
 				<div class="description-wide um-nav-roles">
 				
 					<span class="description"><?php _e( "Select the member roles that can see this link"); ?></span><br />
@@ -98,7 +116,7 @@ class UM_Menu_Item_Custom_Fields_Editor {
 					<p class="description">
 					
 					<?php  foreach($ultimatemember->query->get_roles() as $role_id => $role) { ?>
-					<label><input type="checkbox" name="<?php echo $name; ?>[]" value="<?php echo $role_id; ?>" <?php if (  ( is_array($value) && in_array($role_id, $value ) ) || ( isset($value) && $role_id == $value ) ) echo 'checked="checked"'; ?> /> <?php echo $role; ?></label>&nbsp;&nbsp;
+					<label><input type="checkbox" name="<?php echo $role_name; ?>" value="<?php echo $role_id; ?>" <?php if (  ( is_array($value) && in_array($role_id, $value ) ) || ( isset($value) && $role_id == $value ) ) echo 'checked="checked"'; ?> /> <?php echo $role; ?></label>&nbsp;&nbsp;
 					<?php } ?>
 					
 					</p>

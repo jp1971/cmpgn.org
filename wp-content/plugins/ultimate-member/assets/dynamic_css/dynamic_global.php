@@ -11,8 +11,8 @@ if ( $active_color ) {
 print "
 
 .um-$form_id.um .um-tip:hover,
-.um-$form_id.um .um-field-radio.active i,
-.um-$form_id.um .um-field-checkbox.active i,
+.um-$form_id.um .um-field-radio.active:not(.um-field-radio-state-disabled) i,
+.um-$form_id.um .um-field-checkbox.active:not(.um-field-radio-state-disabled) i,
 .um-$form_id.um .um-member-name a:hover,
 .um-$form_id.um .um-member-more a:hover,
 .um-$form_id.um .um-member-less a:hover,
@@ -146,6 +146,8 @@ print ".um-$form_id.um .um-button.um-alt,
 if ( $form_border ) {
 print "
 .um-$form_id.um .um-form input[type=text],
+.um-$form_id.um .um-form input[type=tel],
+.um-$form_id.um .um-form input[type=number],
 .um-$form_id.um .um-form input[type=password],
 .um-$form_id.um .um-form textarea,
 .um-$form_id.um .upload-progress,
@@ -166,7 +168,11 @@ print "
 if ( $form_border_hover ) {
 print "
 .um-$form_id.um .um-form input[type=text]:focus,
+.um-$form_id.um .um-form input[type=tel]:focus,
+.um-$form_id.um .um-form input[type=number]:focus,
 .um-$form_id.um .um-form input[type=password]:focus,
+.um-$form_id.um .um-form .um-datepicker.picker__input.picker__input--active,
+.um-$form_id.um .um-form .um-datepicker.picker__input.picker__input--target,
 .um-$form_id.um .um-form textarea:focus {
 	border: $form_border_hover !important;
 }
@@ -176,6 +182,8 @@ print "
 if ( $form_bg_color ) {
 print "
 .um-$form_id.um .um-form input[type=text],
+.um-$form_id.um .um-form input[type=tel],
+.um-$form_id.um .um-form input[type=number],
 .um-$form_id.um .um-form input[type=password],
 .um-$form_id.um .um-form textarea,
 .select2-container .select2-choice,
@@ -189,6 +197,8 @@ print "
 if ( $form_bg_color_focus ) {
 print "
 .um-$form_id.um .um-form input[type=text]:focus,
+.um-$form_id.um .um-form input[type=tel]:focus,
+.um-$form_id.um .um-form input[type=number]:focus,
 .um-$form_id.um .um-form input[type=password]:focus,
 .um-$form_id.um .um-form textarea:focus {
 	background-color: $form_bg_color_focus;
@@ -266,6 +276,7 @@ if ( $form_text_color ) {
 print "
 
 .um-$form_id.um .um-form input[type=text],
+.um-$form_id.um .um-form input[type=tel],
 .um-$form_id.um .um-form input[type=password],
 .um-$form_id.um .um-form textarea
 {
